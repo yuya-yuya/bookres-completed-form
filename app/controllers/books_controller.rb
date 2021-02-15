@@ -12,13 +12,14 @@ class BooksController < ApplicationController
     else
       @books = Book.all
       @user = current_user
-      redirect_to books_path
+      render "index"
     end
   end
   
   # @book.user_id = current_user.id足りてない
 
   def index
+    @new_book = Book.new
     @books = Book.all
     @user = current_user
   end
@@ -39,17 +40,18 @@ class BooksController < ApplicationController
       flash[:success] = 'Book was successfully updated'
       redirect_to book_path(@book.id)
     else
-      render :edit
-      redirect_to edit_book_path(@book)
+      render "edit"
     end
   end
 
   def destroy
     book = Book.find(params[:id])
-    book.destry
+    book.destroy
     flash[:success] = 'Book was successfully destroyed.'
     redirect_to books_path
   end
+  
+  # 「o」が抜けているスペルミス
 
   private
 
@@ -58,11 +60,18 @@ class BooksController < ApplicationController
   end
 
   def correct_user
-    user = Book.find(params[:id]).user
-    if current_user.id != user.id
-      redirect_to books_path
-    end
+    @book = Book.find(params[:id])
+   if @book.user != current_user
+    redirect_to books_path
+   end
   end
+  
+  # def correct_user
+  #   user = Book.find(params[:id]).user
+  #   if current_user.id != user.id
+  #     redirect_to books_path
+  #   end
+  # end
 
 
   def book_params
