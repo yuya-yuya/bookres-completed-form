@@ -27,6 +27,8 @@
     <table class="table table-hover table-inverse">
       <thead>
         <tr>
+          <th></th>
+          <!--thを追加した>-->
           <th>
             Title
           </th>
@@ -44,7 +46,8 @@
             <% end %>
           </td>
           <td>
-            <%= link_to book.title, books_path(book.id) %>
+            <%= link_to book.title, book_path(book.id) %>
+            <!--ルートがbooksではなくbook-->
           </td>
           <td>
             <%= book.body %>
